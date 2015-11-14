@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ApplicationTest {
 
     @Test
-    public void application_givesPairings() throws Exception {
+    public void givingPairings() throws Exception {
         Application application = new Application();
 
         List<Pairing> pairings = application.pairings();
@@ -40,7 +40,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void handlingOddNumbersOfTeamMembers() throws Exception {
+    public void givingPairings_withOddNumberOfTeamMembers() throws Exception {
         Application application = new Application();
         application.addTeamMember("Mark");
         List<Pairing> pairings = application.pairings();
@@ -49,9 +49,8 @@ public class ApplicationTest {
         assertThat(pairedNames.get(0), equalTo("Mark"));
     }
 
-
     @Test
-    public void application_providesRandomPairings() throws Exception {
+    public void givingPairings_providesRandomPairings() throws Exception {
         Random random = new Random(12345);
         Application application = new Application(random);
 
