@@ -8,15 +8,17 @@ import static java.util.stream.Collectors.toList;
 
 public class Application {
 
-    private TeamMembers teamMembers = new TeamMembers();
+    private TeamMembers teamMembers;
 
     private Random random;
 
-    public Application() {
+    public Application(TeamRepository teamRepository) {
+        teamMembers = new TeamMembers(teamRepository);
         this.random = new Random();
     }
 
-    public Application(Random random) {
+    public Application(TeamRepository teamRepository, Random random) {
+        teamMembers = new TeamMembers(teamRepository);
         this.random = random;
     }
 

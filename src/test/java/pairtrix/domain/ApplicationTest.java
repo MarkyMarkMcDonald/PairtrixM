@@ -1,6 +1,8 @@
 package pairtrix.domain;
 
+import org.junit.Before;
 import org.junit.Test;
+import pairtrix.cli.InMemoryTeamRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -13,9 +15,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ApplicationTest {
 
+    private TeamRepository teamRepository;
+
+    @Before
+    public void setUp() throws Exception {
+        teamRepository = new InMemoryTeamRepository();
+    }
+
     @Test
     public void givingPairings() throws Exception {
-        Application application = new Application();
+        Application application = new Application(teamRepository);
 
         List<Pairing> pairings = application.pairings();
 
@@ -41,7 +50,7 @@ public class ApplicationTest {
 
     @Test
     public void givingPairings_withOddNumberOfTeamMembers() throws Exception {
-        Application application = new Application();
+        Application application = new Application(teamRepository);
         application.addTeamMember("Mark");
         List<Pairing> pairings = application.pairings();
         List<String> pairedNames = pairings.get(0).getMembers();
@@ -52,7 +61,7 @@ public class ApplicationTest {
     @Test
     public void givingPairings_providesRandomPairings() throws Exception {
         Random random = new Random(12345);
-        Application application = new Application(random);
+        Application application = new Application(teamRepository, random);
 
         for (int i = 0; i < 100; i++) {
             application.addTeamMember("Member " + i);
@@ -63,4 +72,25 @@ public class ApplicationTest {
 
         assertThat(pairingSetOne, not(equalTo(pairingSetTwo)));
     }
+
+    @Test
+    public void teamMembersPersistAcrossApplicationRuns() throws Exception {
+        Application application = new Application(teamRepository);
+
+        application.addTeamMember("Mark");
+        application.addTeamMember("Myself");
+
+         application = new Application(teamRepository);
+        List<Pairing> pairings = application.pairings();
+
+        assertThat(pairings.size(), equalTo(1));
+        List<String> pairedTeamMembers = pairings.get(0).getMembers();
+
+        assertThat(pairedTeamMembers.size(), equalTo(2));
+        assertThat("Mark wasn't saved across application runs",
+                pairedTeamMembers.contains("Mark"), equalTo(true));
+        assertThat("Myself wasn't saved across application runs",
+                pairedTeamMembers.contains("Myself"), equalTo(true));
+    }
+
 }

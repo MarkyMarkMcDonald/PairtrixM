@@ -14,11 +14,12 @@ public class Cli {
     }
 
     public static void main(String[] args) {
-        Application application = new Application();
+        InMemoryTeamRepository teamRepository = new InMemoryTeamRepository();
 
+        Application application = new Application(teamRepository);
         Cli cli = new Cli();
-        Integer count = cli.promptTeamMemberCount();
 
+        Integer count = cli.promptTeamMemberCount();
         System.out.println("Please list their names");
 
         for (int i = 0; i < count; i++) {
@@ -26,8 +27,13 @@ public class Cli {
             application.addTeamMember(teamMemberName);
         }
 
-        System.out.println("Pairings:");
-        System.out.println(application.pairings());
+        while (true) {
+            application = new Application(teamRepository);
+            System.out.println("Pairings:");
+            System.out.println(application.pairings());
+            System.out.println("Hit enter for more pairings");
+            cli.waitForEnterKey();
+        }
     }
 
     private String promptTeamMemberName() {
@@ -39,4 +45,7 @@ public class Cli {
         return scanner.nextInt();
     }
 
+    private void waitForEnterKey() {
+        scanner.nextLine();
+    }
 }
