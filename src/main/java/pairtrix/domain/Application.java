@@ -8,7 +8,8 @@ import static java.util.stream.Collectors.toList;
 
 public class Application {
 
-    public List<String> teamMembers = new ArrayList<>();
+    private List<String> teamMembers = new ArrayList<>();
+
     private Random random;
 
     public Application() {
