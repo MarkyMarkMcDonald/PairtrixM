@@ -2,7 +2,7 @@ package pairtrix.domain;
 
 import org.junit.Before;
 import org.junit.Test;
-import pairtrix.cli.InMemoryTeamRepository;
+import pairtrix.cli.InMemoryTeamMembersRepository;
 
 import java.util.List;
 import java.util.Random;
@@ -15,11 +15,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ApplicationTest {
 
-    private TeamRepository teamRepository;
+    private TeamMembersRepository teamRepository;
 
     @Before
     public void setUp() throws Exception {
-        teamRepository = new InMemoryTeamRepository();
+        teamRepository = new InMemoryTeamMembersRepository();
     }
 
     @Test

@@ -4,9 +4,9 @@ import java.util.*;
 
 public class TeamMembers {
 
-    private TeamRepository teamRepository;
+    private TeamMembersRepository teamRepository;
 
-    public TeamMembers(TeamRepository teamRepository) {
+    public TeamMembers(TeamMembersRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 

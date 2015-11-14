@@ -14,7 +14,7 @@ public class Cli {
     }
 
     public static void main(String[] args) {
-        InMemoryTeamRepository teamRepository = new InMemoryTeamRepository();
+        InMemoryTeamMembersRepository teamRepository = new InMemoryTeamMembersRepository();
 
         Application application = new Application(teamRepository);
         Cli cli = new Cli();

@@ -12,12 +12,12 @@ public class Application {
 
     private Random random;
 
-    public Application(TeamRepository teamRepository) {
+    public Application(TeamMembersRepository teamRepository) {
         teamMembers = new TeamMembers(teamRepository);
         this.random = new Random();
     }
 
-    public Application(TeamRepository teamRepository, Random random) {
+    public Application(TeamMembersRepository teamRepository, Random random) {
         teamMembers = new TeamMembers(teamRepository);
         this.random = random;
     }
