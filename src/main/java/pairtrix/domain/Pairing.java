@@ -22,4 +22,20 @@ class Pairing {
                 "members=" + members +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pairing pairing = (Pairing) o;
+
+        return !(members != null ? !members.equals(pairing.members) : pairing.members != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return members != null ? members.hashCode() : 0;
+    }
 }

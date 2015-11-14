@@ -3,9 +3,11 @@ package pairtrix.domain;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -45,5 +47,21 @@ public class ApplicationTest {
         List<String> pairedNames = pairings.get(0).getMembers();
         assertThat(pairedNames.size(), equalTo(1));
         assertThat(pairedNames.get(0), equalTo("Mark"));
+    }
+
+
+    @Test
+    public void application_providesRandomPairings() throws Exception {
+        Random random = new Random(12345);
+        Application application = new Application(random);
+
+        for (int i = 0; i < 100; i++) {
+            application.addTeamMember("Member " + i);
+        }
+
+        List<Pairing> pairingSetOne = application.pairings();
+        List<Pairing> pairingSetTwo = application.pairings();
+
+        assertThat(pairingSetOne, not(equalTo(pairingSetTwo)));
     }
 }

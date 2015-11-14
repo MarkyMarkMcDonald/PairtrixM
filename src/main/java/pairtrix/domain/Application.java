@@ -2,22 +2,25 @@ package pairtrix.domain;
 
 import com.codepoetics.protonpack.StreamUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
 public class Application {
 
-    public List<String> teamMembers;
+    public List<String> teamMembers = new ArrayList<>();
+    private Random random;
 
     public Application() {
-        this.teamMembers = new ArrayList<>();
+        this.random = new Random();
+    }
+
+    public Application(Random random) {
+        this.random = random;
     }
 
     public List<Pairing> pairings() {
-        return StreamUtils.aggregate(teamMembers.stream(), 2)
+        return StreamUtils.aggregate(getRandomTeamMembers().stream(), 2)
                 .map(pairing -> {
                     if (pairing.size() <= 1) {
                         return new Pairing(pairing.get(0), Optional.empty());
@@ -26,6 +29,11 @@ public class Application {
                     }
                 })
                 .collect(toList());
+    }
+
+    private List<String> getRandomTeamMembers() {
+        Collections.shuffle(teamMembers, random);
+        return teamMembers;
     }
 
     public void addTeamMember(String name) {
