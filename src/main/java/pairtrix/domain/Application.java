@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Application {
 
-    private List<String> teamMembers = new ArrayList<>();
+    private TeamMembers teamMembers = new TeamMembers();
 
     private Random random;
 
@@ -33,8 +33,7 @@ public class Application {
     }
 
     private List<String> getRandomTeamMembers() {
-        Collections.shuffle(teamMembers, random);
-        return teamMembers;
+        return teamMembers.withSeed(random);
     }
 
     public void addTeamMember(String name) {
