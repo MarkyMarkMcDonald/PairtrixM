@@ -2,7 +2,6 @@ package pairtrix.domain;
 
 import org.junit.Before;
 import org.junit.Test;
-import pairtrix.cli.InMemoryTeamMembersRepository;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class TeamMembersRepositoryTest {
     private TeamMembersRepository teamMembersRepository;
 
     protected TeamMembersRepository setupTeamMembersRepository() {
-        return new InMemoryTeamMembersRepository();
+        return new FakeTeamMembersRepository();
     }
 
     @Before
