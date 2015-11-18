@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-class Pairing {
+public class Pairing {
     private List<String> members = new ArrayList<>();
 
     public Pairing(String firstMember, Optional<String> secondMember) {

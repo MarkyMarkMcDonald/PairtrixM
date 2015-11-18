@@ -2,6 +2,7 @@ package pairtrix.domain;
 
 import com.codepoetics.protonpack.StreamUtils;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -11,6 +12,7 @@ public class Application {
     private TeamMembers teamMembers;
 
     private Random random;
+    private List<TeamSetup> teamSetups = new ArrayList<>();
 
     public Application(TeamMembersRepository teamRepository) {
         teamMembers = new TeamMembers(teamRepository);
@@ -40,5 +42,19 @@ public class Application {
 
     public void addTeamMember(String name) {
         teamMembers.add(name);
+    }
+
+    @SafeVarargs
+    public final void recordPairings(LocalDate dateReported, List<String>... stringPairings) {
+        List<Pairing> pairings = Arrays.stream(stringPairings)
+                .map(teamMembers -> new Pairing(teamMembers.get(0), Optional.ofNullable(teamMembers.get(1))))
+                .collect(toList());
+        TeamSetup teamSetup = new TeamSetup(pairings, dateReported);
+        teamSetups.add(teamSetup);
+    }
+
+    public List<TeamSetup> getPreviousTeamSetups() {
+        teamSetups.sort(TeamSetup::compareTo);
+        return teamSetups;
     }
 }
