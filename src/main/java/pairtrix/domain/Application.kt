@@ -2,7 +2,7 @@ package pairtrix.domain
 
 import java.time.LocalDate
 
-class Application(private val teamMembersRepository: TeamMembersRepository) {
+public class Application(private val teamMembersRepository: TeamMembersRepository) {
 
     private var teamSetups = listOf<TeamSetup>()
 
