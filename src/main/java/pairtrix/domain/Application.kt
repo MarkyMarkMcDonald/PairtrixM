@@ -3,27 +3,17 @@ package pairtrix.domain
 import java.time.LocalDate
 import java.util.*
 
-class Application {
+class Application(private val teamMembersRepository: TeamMembersRepository) {
 
-    private var teamMembers: TeamMembers? = null
+    private val random: Random = Random()
 
-    private var random: Random
-    private val teamSetups = ArrayList<TeamSetup>()
+    private var teamSetups = listOf<TeamSetup>()
 
-    constructor(teamRepository: TeamMembersRepository) {
-        teamMembers = TeamMembers(teamRepository)
-        this.random = Random()
-    }
-
-    constructor(teamRepository: TeamMembersRepository, random: Random) {
-        teamMembers = TeamMembers(teamRepository)
-        this.random = random
-    }
+    val teamMembers: TeamMembers = TeamMembers(teamMembersRepository)
 
     fun pairings(): List<Pairing> {
         val team = randomTeamMembers
         if (team.size == 0) return listOf()
-
 
         return aggregateByTwo(team).map { Pairing(it.first, it.second) }
     }
@@ -33,22 +23,21 @@ class Application {
     }
 
     private val randomTeamMembers: List<String>
-        get() = teamMembers!!.withSeed(random)
+        get() = teamMembers.withSeed(random)
 
     fun addTeamMember(name: String) {
-        teamMembers!!.add(name)
+        teamMembers.add(name)
     }
 
     @SafeVarargs
     fun recordPairings(dateReported: LocalDate, vararg stringPairings: List<String>) {
         val pairings = stringPairings.map { teamMembers -> Pairing(teamMembers[0], teamMembers[1]) }
         val teamSetup = TeamSetup(pairings, dateReported)
-        teamSetups.add(teamSetup)
+        teamSetups = teamSetups.plus(teamSetup)
     }
 
     val previousTeamSetups: List<TeamSetup>
         get() {
-            teamSetups.sort { obj, other -> obj.compareTo(other) }
-            return teamSetups
+            return teamSetups.sortedByDescending { it.dateReported }
         }
 }
