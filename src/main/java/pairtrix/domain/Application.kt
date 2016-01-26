@@ -9,8 +9,6 @@ class Application(private val teamMembersRepository: TeamMembersRepository) {
 
     private var teamSetups = listOf<TeamSetup>()
 
-    val teamMembers: TeamMembers = TeamMembers(teamMembersRepository)
-
     fun pairings(): List<Pairing> {
         val team = randomTeamMembers
         if (team.size == 0) return listOf()
@@ -23,10 +21,14 @@ class Application(private val teamMembersRepository: TeamMembersRepository) {
     }
 
     private val randomTeamMembers: List<String>
-        get() = teamMembers.withSeed(random)
+        get() {
+            var randomizedList = ArrayList(teamMembersRepository.findAll())
+            Collections.shuffle(randomizedList, random)
+            return randomizedList
+        }
 
     fun addTeamMember(name: String) {
-        teamMembers.add(name)
+        teamMembersRepository.addMember(name)
     }
 
     @SafeVarargs
