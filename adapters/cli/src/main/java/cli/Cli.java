@@ -1,12 +1,10 @@
-package pairtrix.cli;
+package cli;
 
 import pairtrix.domain.Application;
 
 import java.util.Scanner;
 
-/* Use this for acceptance testing, toss is once we start building out a more convenient client */
 public class Cli {
-
     private final Scanner scanner;
 
     public Cli() {

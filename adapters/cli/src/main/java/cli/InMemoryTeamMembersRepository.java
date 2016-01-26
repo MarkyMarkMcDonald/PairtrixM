@@ -1,12 +1,11 @@
-package pairtrix.cli;
+package cli;
 
 import pairtrix.domain.TeamMembersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class InMemoryTeamMembersRepository implements TeamMembersRepository {
-
+public class InMemoryTeamMembersRepository implements TeamMembersRepository {
     private List<String> teamMembers = new ArrayList<>();
 
     @Override
