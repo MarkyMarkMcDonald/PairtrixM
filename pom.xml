@@ -6,7 +6,12 @@
 
     <groupId>pairtrix</groupId>
     <artifactId>pairtrix</artifactId>
+
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <kotlin.version>1.0.0-beta-4589</kotlin.version>
+    </properties>
 
     <build>
         <plugins>
@@ -19,18 +24,44 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>process-test-sources</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.codepoetics</groupId>
             <artifactId>protonpack</artifactId>
             <version>1.7</version>
         </dependency>
-
-
-
 
         <!-- Test -->
         <dependency>
@@ -39,6 +70,7 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
@@ -53,8 +85,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-
-
 
 </project>

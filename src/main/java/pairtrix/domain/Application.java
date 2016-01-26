@@ -28,9 +28,9 @@ public class Application {
         return StreamUtils.aggregate(getRandomTeamMembers().stream(), 2)
                 .map(pairing -> {
                     if (pairing.size() <= 1) {
-                        return new Pairing(pairing.get(0), Optional.empty());
+                        return new Pairing(pairing.get(0), null);
                     } else {
-                        return new Pairing(pairing.get(0), Optional.of(pairing.get(1)));
+                        return new Pairing(pairing.get(0), pairing.get(1));
                     }
                 })
                 .collect(toList());
@@ -47,7 +47,7 @@ public class Application {
     @SafeVarargs
     public final void recordPairings(LocalDate dateReported, List<String>... stringPairings) {
         List<Pairing> pairings = Arrays.stream(stringPairings)
-                .map(teamMembers -> new Pairing(teamMembers.get(0), Optional.ofNullable(teamMembers.get(1))))
+                .map(teamMembers -> new Pairing(teamMembers.get(0), teamMembers.get(1)))
                 .collect(toList());
         TeamSetup teamSetup = new TeamSetup(pairings, dateReported);
         teamSetups.add(teamSetup);
