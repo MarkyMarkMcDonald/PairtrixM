@@ -58,7 +58,7 @@ public class ApplicationTest {
     @Test
     public void givingPairings_providesRandomPairings() throws Exception {
         Random random = new Random(12345);
-        Application application = new Application(teamRepository, random);
+        Application application = new Application(teamRepository);
 
         for (int i = 0; i < 100; i++) {
             application.addTeamMember("Member " + i);
