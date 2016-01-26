@@ -1,6 +1,6 @@
 package pairtrix.domain
 
-import java.util.*
+import pairtrix.random.shuffle
 
 interface Pairalizer {
     fun pairings(teamMembers: List<String>): List<Pairing>
@@ -8,19 +8,27 @@ interface Pairalizer {
 
 class RandomPairalizer : Pairalizer {
     override fun pairings(teamMembers: List<String>): List<Pairing> {
-        val randomizedTeam = randomize(teamMembers)
-        if (randomizedTeam.size == 0) return listOf()
-        return aggregateByTwo(randomizedTeam).map { Pairing(it.first, it.second) }
+        if (teamMembers.size == 0) return listOf()
+        val randomizedTeam = teamMembers.shuffle()
+        return aggregateByTwo(randomizedTeam)
     }
 
-    private fun randomize(teamMembers: List<String>): List<String> {
-        val randomizedList = ArrayList(teamMembers)
-        Collections.shuffle(randomizedList)
-        return randomizedList
-    }
+    /*
+     input:
+     A B C
 
-    private fun aggregateByTwo(team: List<String>): List<Pair<String, String?>> {
+     ->
+     create sublist:
+     A B C
+     B C Null
+
+     ->
+     remove even elements:
+     A C
+     B Null
+     */
+    private fun aggregateByTwo(team: List<String>): List<Pairing> {
         return team.zip(team.subList(1, team.size).plus(null)).filterIndexed { i, pair -> i % 2 == 0 }
+                .map { Pairing(it.first, it.second) }
     }
 }
-
