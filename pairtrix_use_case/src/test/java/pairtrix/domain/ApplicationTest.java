@@ -2,6 +2,7 @@ package pairtrix.domain;
 
 import org.junit.Before;
 import org.junit.Test;
+import pairtrix.domain.helpers.FakeTeamMembersRepository;
 
 import java.util.List;
 

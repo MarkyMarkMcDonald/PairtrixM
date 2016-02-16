@@ -1,4 +1,6 @@
-package pairtrix.domain;
+package pairtrix.domain.helpers;
+
+import pairtrix.domain.TeamMembersRepository;
 
 import java.util.ArrayList;
 import java.util.List;

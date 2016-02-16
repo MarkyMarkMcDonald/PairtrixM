@@ -1,6 +1,7 @@
 package pairtrix.domain;
 
 import org.junit.Test;
+import pairtrix.domain.helpers.FakeTeamMembersRepository;
 
 import java.time.LocalDate;
 import java.time.Month;
