@@ -4,8 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import pairtrix.domain.helpers.FakeTeamMembersRepository;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -67,6 +69,31 @@ public class ApplicationTest {
         List<Pairing> pairingSetTwo = application.pairings();
 
         assertThat(pairingSetOne, not(equalTo(pairingSetTwo)));
+    }
+
+    @Test
+    public void givingPairings_afterRecordingPairings_providesUnseenPairings() throws Exception {
+        Application application = new Application(teamRepository);
+
+        application.addTeamMember("a");
+        application.addTeamMember("b");
+        application.addTeamMember("c");
+        application.addTeamMember("d");
+
+        for (int i = 0; i < 100; i++) {
+            List<TeamSetup> previousTeamSetups = application.getPreviousTeamSetups();
+            Set<Pairing> pairings = new HashSet<>(application.pairings());
+
+            for (TeamSetup previousTeamSetup : previousTeamSetups) {
+                assertFalse("There was a pairing that already existed in a previous team setup", previousTeamSetup.compairing(pairings));
+            }
+
+            ArrayList<Pairing> pairingsHack = new ArrayList<>();
+            pairingsHack.addAll(pairings);
+
+            application.recordPairings(LocalDate.now(), pairingsHack);
+        }
+
     }
 
     @Test

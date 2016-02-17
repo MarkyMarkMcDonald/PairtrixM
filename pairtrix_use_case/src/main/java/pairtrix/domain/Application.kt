@@ -19,8 +19,12 @@ public class Application(private val teamMembersRepository: TeamMembersRepositor
     @SafeVarargs
     fun recordPairings(dateReported: LocalDate, vararg stringPairings: List<String>) {
         val pairings = stringPairings.map { teamMembers -> Pairing(teamMembers[0], teamMembers[1]) }
-        val teamSetup = TeamSetup(pairings.toSet(), dateReported)
-        teamSetups = teamSetups.plus(teamSetup)
+        recordPairings(dateReported, pairings)
+    }
+
+    fun recordPairings(dateReported: LocalDate, pairings: List<Pairing>) {
+        val teamSetup: TeamSetup = TeamSetup(pairings.toSet(), dateReported)
+        teamSetups = teamSetups.plus(element = teamSetup)
     }
 
     val previousTeamSetups: List<TeamSetup>
