@@ -13,22 +13,13 @@ class RandomPairalizer : Pairalizer {
         return aggregateByTwo(randomizedTeam)
     }
 
-    /*
-     input:
-     A B C
-
-     ->
-     create sublist:
-     A B C
-     B C Null
-
-     ->
-     remove even elements:
-     A C
-     B Null
-     */
     private fun aggregateByTwo(team: List<String>): List<Pairing> {
-        return team.zip(team.subList(1, team.size).plus(null)).filterIndexed { i, pair -> i % 2 == 0 }
+        val withoutFirstMember: List<String> = team.drop(1)
+
+        val subListWithNull = listOf<String?>(null).plus(withoutFirstMember).reversed()
+
+        return team.zip(subListWithNull)
+                .filterIndexed { i, pair -> i % 2 == 0 } // drop overlapping pairs
                 .map { Pairing(it.first, it.second) }
     }
 }

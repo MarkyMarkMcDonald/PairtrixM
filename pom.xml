@@ -16,7 +16,7 @@
     </modules>
 
     <properties>
-        <kotlin.version>1.0.0-beta-4589</kotlin.version>
+        <kotlin.version>1.0.0</kotlin.version>
     </properties>
 
     <build>
