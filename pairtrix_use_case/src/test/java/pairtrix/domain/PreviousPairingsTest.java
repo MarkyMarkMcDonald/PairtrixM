@@ -51,8 +51,8 @@ public class PreviousPairingsTest {
         application.recordPairings(yesterday, asList("Fred", "Peter"));
 
         List<TeamSetup> previousTeamSetups = application.getPreviousTeamSetups();
-        assertThat(previousTeamSetups.get(0).getPairings().get(0).getMembers(), hasItems("Bob", "Zim"));
-        assertThat(previousTeamSetups.get(1).getPairings().get(0).getMembers(), hasItems("Mark", "George"));
-        assertThat(previousTeamSetups.get(2).getPairings().get(0).getMembers(), hasItems("Fred", "Peter"));
+        assertThat(previousTeamSetups.get(0).getPairings().iterator().next().getMembers(), hasItems("Bob", "Zim"));
+        assertThat(previousTeamSetups.get(1).getPairings().iterator().next().getMembers(), hasItems("Mark", "George"));
+        assertThat(previousTeamSetups.get(2).getPairings().iterator().next().getMembers(), hasItems("Fred", "Peter"));
     }
 }
