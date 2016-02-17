@@ -20,7 +20,7 @@ public class Cli {
         Integer count = cli.promptTeamMemberCount();
         System.out.println("Please list their names");
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i <= count; i++) {
             String teamMemberName = cli.promptTeamMemberName();
             application.addTeamMember(teamMemberName);
         }
