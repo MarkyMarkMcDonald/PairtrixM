@@ -20,4 +20,3 @@ class TeamSetupTest {
         assert(!firstSetup.compairing(setupSharingAPairing))
     }
 }
-

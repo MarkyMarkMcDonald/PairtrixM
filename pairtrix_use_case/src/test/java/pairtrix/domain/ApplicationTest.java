@@ -80,12 +80,13 @@ public class ApplicationTest {
         application.addTeamMember("c");
         application.addTeamMember("d");
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 2; i++) {
             List<TeamSetup> previousTeamSetups = application.getPreviousTeamSetups();
             Set<Pairing> pairings = new HashSet<>(application.pairings());
 
             for (TeamSetup previousTeamSetup : previousTeamSetups) {
-                assertFalse("There was a pairing that already existed in a previous team setup", previousTeamSetup.compairing(pairings));
+                assertFalse("There was a pairing that already existed in a previous team setup",
+                        previousTeamSetup.compairing(pairings));
             }
 
             ArrayList<Pairing> pairingsHack = new ArrayList<>();

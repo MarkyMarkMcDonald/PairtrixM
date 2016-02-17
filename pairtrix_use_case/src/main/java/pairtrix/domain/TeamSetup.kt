@@ -7,7 +7,7 @@ data class TeamSetup(val pairings: Set<Pairing>, val dateReported: LocalDate) : 
     override fun compareTo(other: TeamSetup): Int = other.dateReported.compareTo(dateReported)
 
     fun compairing(otherSetup: Set<Pairing>): Boolean {
-        return false
+        return intersect(otherSetup).isEmpty()
     }
 
 }
