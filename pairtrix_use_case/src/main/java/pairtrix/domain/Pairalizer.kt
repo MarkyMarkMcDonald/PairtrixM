@@ -3,12 +3,23 @@ package pairtrix.domain
 import pairtrix.random.shuffle
 
 interface Pairalizer {
-    fun pairings(teamMembers: List<String>): List<Pairing>
+    fun pairings(teamMembers: List<String>, previousTeamSetups: List<TeamSetup>): List<Pairing>
 }
 
 class RandomPairalizer : Pairalizer {
-    override fun pairings(teamMembers: List<String>): List<Pairing> {
+    override fun pairings(teamMembers: List<String>, previousTeamSetups: List<TeamSetup>): List<Pairing> {
         if (teamMembers.size == 0) return listOf()
+
+        var pairs: List<Pairing> = randomPairs(teamMembers)
+
+        while (previousTeamSetups.any { teamSetup -> teamSetup.compairing(pairs.toSet()) }) {
+            pairs = randomPairs(teamMembers)
+        }
+
+        return pairs
+    }
+
+    private fun randomPairs(teamMembers: List<String>): List<Pairing> {
         val randomizedTeam = teamMembers.shuffle()
         return aggregateByTwo(randomizedTeam)
     }

@@ -9,7 +9,7 @@ public class Application(private val teamMembersRepository: TeamMembersRepositor
     private val pairalizer: Pairalizer = RandomPairalizer()
 
     fun pairings(): List<Pairing> {
-        return pairalizer.pairings(teamMembersRepository.findAll())
+        return pairalizer.pairings(teamMembersRepository.findAll(), teamSetups)
     }
 
     fun addTeamMember(name: String) {
