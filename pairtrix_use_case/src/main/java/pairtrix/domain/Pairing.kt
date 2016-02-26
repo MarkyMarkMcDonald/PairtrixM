@@ -15,4 +15,8 @@ data class Pairing(val firstMember: String, val secondMember: String?) {
     fun getMembers(): List<String> {
         return members
     }
+
+    fun equals(other: Pairing): Boolean {
+        return members.containsAll(other.getMembers())
+    }
 }

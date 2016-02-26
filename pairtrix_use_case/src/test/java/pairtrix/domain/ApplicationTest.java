@@ -5,11 +5,12 @@ import org.junit.Test;
 import pairtrix.domain.helpers.FakeTeamMembersRepository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 
 public class ApplicationTest {
@@ -71,7 +72,7 @@ public class ApplicationTest {
         assertThat(pairingSetOne, not(equalTo(pairingSetTwo)));
     }
 
-    @Test
+    @Test(timeout = 10000L)
     public void givingPairings_afterRecordingPairings_providesUnseenPairings() throws Exception {
         Application application = new Application(teamRepository);
 
@@ -80,21 +81,18 @@ public class ApplicationTest {
         application.addTeamMember("c");
         application.addTeamMember("d");
 
-        for (int i = 0; i < 2; i++) {
-            List<TeamSetup> previousTeamSetups = application.getPreviousTeamSetups();
-            Set<Pairing> pairings = new HashSet<>(application.pairings());
+        application.recordPairings(LocalDate.MIN, Arrays.asList(new Pairing("a", "b"), new Pairing("c", "d")));
+        application.recordPairings(LocalDate.MIN, Arrays.asList(new Pairing("a", "c"), new Pairing("b", "d")));
 
-            for (TeamSetup previousTeamSetup : previousTeamSetups) {
-                assertFalse("There was a pairing that already existed in a previous team setup",
-                        previousTeamSetup.compairing(pairings));
-            }
+        List<Pairing> pairings = application.pairings();
 
-            ArrayList<Pairing> pairingsHack = new ArrayList<>();
-            pairingsHack.addAll(pairings);
-
-            application.recordPairings(LocalDate.now(), pairingsHack);
-        }
-
+        assertThat(
+                pairings,
+                containsInAnyOrder(
+                        equalTo(new Pairing("a", "d")),
+                        equalTo(new Pairing("b", "c"))
+                )
+        );
     }
 
     @Test
