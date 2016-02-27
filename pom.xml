@@ -13,6 +13,7 @@
     <modules>
       <module>pairtrix_use_case</module>
       <module>adapters/cli</module>
+      <module>adapters/pairtrix-web</module>
     </modules>
 
     <properties>
